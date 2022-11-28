@@ -1,5 +1,7 @@
 node_modules/
+vscdata/
+bin/
+
 .idea/
 .vscode/
-
 .env
