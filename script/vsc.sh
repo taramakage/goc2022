@@ -3,9 +3,10 @@
 set -e 
 
 # Gloval Vars
-BINARY='./bin/sputnik'
-RPC='https://sputnik-rpc.ztake.org:443'
-CHAINID='sputnik'
+CHAINID="hero"
+BINARY="./bin/securityd"
+RPC="https://${CHAINID}-rpc.ztake.org:443"
+
 
 JQ='jq'
 EVENTS='ccv_packet.module=ccvconsumer'
@@ -18,8 +19,8 @@ ENDPAGE="1"
 
 # Make directory for vsc data
 vsc-mkdir() {
-    if [ ! -d "${DATADIR}" ]; then
-        echo "Making directory: ${DATADIR}"
+    if [ ! -d "${DATADIR}/${CHAINID}" ]; then
+        echo "Making directory: ${DATADIR}/${CHAINID}"
         mkdir -p ${DATADIR}/${CHAINID}
     else
         echo "Directory already exists."
@@ -97,7 +98,7 @@ vsc-fetch-all() {
     echo "Fetching txs..."
     for (( i=${STARTPAGE}; i<=${ENDPAGE}; i++ )); do 
         echo "--> Fetching page ${i} on ${RPC} at $(date +"%T")"
-        VSCFILE=${DATADIR}/{CHAINID}/${i}${VSCSUFFIX}
+        VSCFILE=${DATADIR}/${CHAINID}/${i}${VSCSUFFIX}
         ${BINARY} query txs --events ${EVENTS} --output json --limit ${LIMIT} --page ${i} --node ${RPC} | ${JQ} --raw-output '.txs[] | "Signer " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).signer + " Height " + .height + " TxHash " + .txhash' > ${VSCFILE}
     done
     echo "Finish fetching."

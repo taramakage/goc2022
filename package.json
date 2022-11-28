@@ -1,0 +1,27 @@
+{
+  "name": "goc2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cmp": "node cmp.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "@cosmjs/amino": "^0.28.7",
+    "@cosmjs/encoding": "^0.29.4",
+    "axios": "^0.27.2",
+    "cosmjs-types": "^0.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taramakage/goc2022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taramakage/goc2022/issues"
+  },
+  "homepage": "https://github.com/taramakage/goc2022#readme"
+}
