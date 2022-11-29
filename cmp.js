@@ -5,7 +5,7 @@ import fs from 'fs/promises'
 /* ------------------------ CONFIG ------------------------ */
 const provider = {
   id: 'provider',
-  rpc: 'https://provider-rpc.ztake.org:443',
+  rpc: 'http://localhost:26657',
   start_height: 53001,
   last_height: 0,
   latest_height: 0,
@@ -23,7 +23,7 @@ const provider = {
 }
 const consumer = {
   id: 'sputnik',
-  rpc: 'https://sputnik-rpc.ztake.org:443',
+  rpc: 'http://localhost:26757',
   start_height: 1,
   last_height: 0,
   latest_height: 0,
@@ -363,7 +363,7 @@ async function setLatestHeights (cheight, pheight) {
 
 async function main () {
   // 1. fetch latest heights
-  await setLatestHeights(1500, 60000)
+  await setLatestHeights(10000, 60000)
 
   // 2. compare all historic valsets
   // 2-1. fetch provider valset
