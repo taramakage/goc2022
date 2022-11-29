@@ -6,7 +6,7 @@ import fs from 'fs/promises'
 const provider = {
   id: 'provider',
   rpc: 'https://provider-rpc.ztake.org:443',
-  start_height: 50001,
+  start_height: 53001,
   last_height: 0,
   latest_height: 0,
   valset_data: [
@@ -330,7 +330,7 @@ async function fetchHistoricBlocks (chain) {
 }
 
 // fetch latest height for both provider and comsumer
-async function fetchLatestHeights () {
+async function setLatestHeights (cheight, pheight) {
   let res = await fetchRpc(provider.rpc, '/abci_info')
   provider.latest_height = parseInt(res.response.last_block_height)
   res = await fetchRpc(consumer.rpc, '/abci_info')
@@ -342,12 +342,28 @@ async function fetchLatestHeights () {
     '\nconsumer latest: ',
     consumer.latest_height
   )
+
+  if (cheight != undefined && cheight <= consumer.latest_height) {
+    consumer.latest_height = cheight
+  }
+
+  if (pheight != undefined && pheight <= provider.latest_height) {
+    provider.latest_height = pheight
+  }
+
+  console.log(
+    'set provider latest height: ',
+    provider.latest_height,
+    '\nconsumer latest height: ',
+    consumer.latest_height
+  )
+
   return true
 }
 
 async function main () {
   // 1. fetch latest heights
-  await fetchLatestHeights()
+  await setLatestHeights(1500, 60000)
 
   // 2. compare all historic valsets
   // 2-1. fetch provider valset
