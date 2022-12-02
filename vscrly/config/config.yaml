@@ -1,0 +1,131 @@
+
+global:
+    api-listen-addr: :5183
+    timeout: 10s
+    memo: 
+    light-cache-size: 20
+chains:
+    provider:
+        type: cosmos
+        value:
+            key: provider
+            chain-id: provider
+            rpc-addr: http://35.230.9.134:26657
+            account-prefix: cosmos
+            keyring-backend: test
+            gas-adjustment: 1.5
+            gas-prices: 0.025uprov
+            min-gas-amount: 200000
+            debug: true
+            timeout: 20s
+            output-format: json
+            sign-mode: direct
+    sputnik:
+        type: cosmos
+        value:
+            key: sputnik
+            chain-id: sputnik
+            rpc-addr: http://35.230.9.134:26757
+            account-prefix: cosmos
+            keyring-backend: test
+            gas-adjustment: 1.5
+            gas-prices: 0.01unik
+            min-gas-amount: 200000
+            debug: false
+            timeout: 20s
+            output-format: json
+            sign-mode: direct
+    hero:
+        type: cosmos
+        value:
+            key: hero-1
+            chain-id: hero-1
+            rpc-addr: http://127.0.0.1:26757
+            account-prefix: cosmos
+            keyring-backend: test
+            gas-adjustment: 1.5
+            gas-prices: 0.01uhero
+            min-gas-amount: 200000
+            debug: false
+            timeout: 20s
+            output-format: json
+            sign-mode: direct
+    neutron:
+        type: cosmos
+        value:
+            key: neutron
+            chain-id: neutron
+            rpc-addr: http://127.0.0.1:26857
+            account-prefix: neutron
+            keyring-backend: test
+            gas-adjustment: 1.5
+            gas-prices: 0.01untrn
+            min-gas-amount: 200000
+            debug: false
+            timeout: 20s
+            output-format: json
+            sign-mode: direct
+    gopher:
+        type: cosmos
+        value:
+            key: gopher
+            chain-id: gopher
+            rpc-addr: http://127.0.0.1:26957
+            account-prefix: cosmos
+            keyring-backend: test
+            gas-adjustment: 1.5
+            gas-prices: 0.01ugoph
+            min-gas-amount: 200000
+            debug: false
+            timeout: 20s
+            output-format: json
+            sign-mode: direct
+paths:
+    provider-sputnik:
+      src:
+        chain-id: provider
+        client-id: 07-tendermint-0
+        connection-id: connection-0
+      dst:
+        chain-id: sputnik
+        client-id: 07-tendermint-0
+        connection-id: connection-0
+      src-channel-filter:
+         rule: "allowlist"
+         channel-list: ["channel-0","channel-1"]
+    provider-hero:
+      src:
+        chain-id: provider
+        client-id: 07-tendermint-3
+        connection-id: connection-14
+      dst:
+        chain-id: hero-1
+        client-id: 07-tendermint-0
+        connection-id: connection-0
+      src-channel-filter:
+         rule: "allowlist"
+         channel-list: ["channel-8","channel-9"]
+    provider-neutron:
+      src:
+        chain-id: provider
+        client-id: 07-tendermint-4
+        connection-id: connection-15
+      dst:
+        chain-id: neutron
+        client-id: 07-tendermint-0
+        connection-id: connection-0
+      src-channel-filter:
+         rule: "allowlist"
+         channel-list: ["channel-10","channel-11"]
+    provider-gopher:
+      src:
+        chain-id: provider
+        client-id: 07-tendermint-5
+        connection-id: connection-16
+      dst:
+        chain-id: gopher
+        client-id: 07-tendermint-0
+        connection-id: connection-0
+      src-channel-filter:
+         rule: "allowlist"
+         channel-list: ["channel-12","channel-13"]

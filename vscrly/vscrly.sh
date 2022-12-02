@@ -3,10 +3,10 @@
 set -e 
 
 # Gloval Vars
-CHAINID="hero"
+CHAINID="neutron"
 BINARY="./bin/securityd"
 RPC="https://${CHAINID}-rpc.ztake.org:443"
-
+OUTPUT="./output"
 
 JQ='jq'
 EVENTS='ccv_packet.module=ccvconsumer'
@@ -55,6 +55,7 @@ vsc-generate-analysis() {
     sort -k2,2 -k4,4n < ${ANLSTMP} | cut -d ' ' -f 2 | uniq -c | sort -k1,1n | awk '{print $2,$1}' > ${DATADIR}/${CHAINID}/${ANALYSIS}
     sed -i '1s/^/Signer                                        Times\n/' ${DATADIR}/${CHAINID}/${ANALYSIS}
     rm ${ANLSTMP}
+    mv ${DATADIR}/${CHAINID}/${ANALYSIS} ${OUTPUT}/${CHAINID}.output
     echo "--> Done."    
 }
 
