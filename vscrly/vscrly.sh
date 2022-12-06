@@ -3,7 +3,7 @@
 set -e 
 
 # Gloval Vars
-CHAINID="neutron"
+CHAINID="hero"
 BINARY="./bin/securityd"
 RPC="https://${CHAINID}-rpc.ztake.org:443"
 OUTPUT="./output"

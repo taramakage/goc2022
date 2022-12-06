@@ -80,6 +80,21 @@ chains:
             timeout: 20s
             output-format: json
             sign-mode: direct
+    duality:
+        type: cosmos
+        value:
+            key: duality
+            chain-id: duality
+            rpc-addr: http://127.0.0.1:27057
+            account-prefix: cosmos
+            keyring-backend: test
+            gas-adjustment: 1.5
+            gas-prices: 0.0000001stake
+            min-gas-amount: 200000
+            debug: false
+            timeout: 20s
+            output-format: json
+            sign-mode: direct
 paths:
     provider-sputnik:
       src:
