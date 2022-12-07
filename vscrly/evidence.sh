@@ -2,51 +2,48 @@
 # This dummy script counts the number and height of valid vsc for specific address
 set -e 
 
-# Gloval Vars
-## General
-BINARY="./bin/securityd"
 JQ='jq'
+BINARY="./bin/securityd"
 DIR="./evidence"
-LIMIT=100
-## CHAINIDS
-CHAINID1="neutron"
-CHAINID2="gopher"
-CHAINID3="hero"
-CHAINID4="apollo"
-CHAINID5="duality"
-## RPCS
-RPC1="https://${CHAINID1}-rpc.ztake.org:443"
-RPC2="https://${CHAINID2}-rpc.ztake.org:443"
-RPC3="https://${CHAINID3}-rpc.ztake.org:443"
-RPC4="https://${CHAINID4}-rpc.ztake.org:443"
-RPC5="https://${CHAINID5}-rpc.ztake.org:443"
-## EVENTS
-EVENTS1='ccv_packet.module=ccvconsumer&recv_packet.packet_dst_port=consumer&recv_packet.packet_dst_channel=channel-0&message.sender=neutron1ctprl2u2pgcdlc07r9wzkx3jj036v2lhs9d5kw'
-EVENTS2='ccv_packet.module=ccvconsumer&recv_packet.packet_dst_port=consumer&recv_packet.packet_dst_channel=channel-0&message.sender=cosmos1ctprl2u2pgcdlc07r9wzkx3jj036v2lh56ykvf'
-EVENTS3='ccv_packet.module=ccvconsumer&recv_packet.packet_dst_port=consumer&recv_packet.packet_dst_channel=channel-0&message.sender=cosmos1ctprl2u2pgcdlc07r9wzkx3jj036v2lh56ykvf'
-EVENTS4='ccv_packet.module=ccvconsumer&recv_packet.packet_dst_port=consumer&recv_packet.packet_dst_channel=channel-0&message.sender=cosmos1ctprl2u2pgcdlc07r9wzkx3jj036v2lh56ykvf'
-EVENTS5='ccv_packet.module=ccvconsumer&recv_packet.packet_dst_port=consumer&recv_packet.packet_dst_channel=channel-0&message.sender=cosmos1ctprl2u2pgcdlc07r9wzkx3jj036v2lh56ykvf'
+SUFFIX=".csv"
 
-# Fetch all
+LIMIT=100
+CHAINID=""
+SENDER=""
+SENDERS=("cosmos1ctprl2u2pgcdlc07r9wzkx3jj036v2lh56ykvf" "neutron1ctprl2u2pgcdlc07r9wzkx3jj036v2lhs9d5kw")
+CHAINIDS=("neutron" "gopher" "hero" "apollo" "duality")
+
+# Must set these vars before call this function
+# - SENDER: ccvconsumer & sender
+# - CHAINID: which chain to fetch
 vsc-fetch() {
-    # neutron
-    echo "-> Fetching ${CHAINID1}"
-    ${BINARY} query txs --events ${EVENTS1} --output json --limit ${LIMIT} --page 1 --node ${RPC1} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' > ${DIR}/${CHAINID1}.evidence
-    ${BINARY} query txs --events ${EVENTS1} --output json --limit ${LIMIT} --page 2 --node ${RPC1} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' >> ${DIR}/${CHAINID1}.evidence
-    ${BINARY} query txs --events ${EVENTS1} --output json --limit ${LIMIT} --page 3 --node ${RPC1} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' >> ${DIR}/${CHAINID1}.evidence
-    # gopher
-    echo "-> Fetching ${CHAINID2}"
-    ${BINARY} query txs --events ${EVENTS2} --output json --limit ${LIMIT} --page 1 --node ${RPC2} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' > ${DIR}/${CHAINID2}.evidence
-    # hero
-    echo "-> Fetching ${CHAINID3}"
-    ${BINARY} query txs --events ${EVENTS3} --output json --limit ${LIMIT} --page 1 --node ${RPC3} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' > ${DIR}/${CHAINID3}.evidence
-    # ${BINARY} query txs --events ${EVENTS3} --output json --limit ${LIMIT} --page 2 --node ${RPC3} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' > ${DIR}/${CHAINID3}.evidence
-    # apollo
-    echo "-> Fetching ${CHAINID4}"
-    ${BINARY} query txs --events ${EVENTS4} --output json --limit ${LIMIT} --page 1 --node ${RPC4} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' > ${DIR}/${CHAINID4}.evidence
-    # duality
-    echo "-> Fetching ${CHAINID5}"
-    ${BINARY} query txs --events ${EVENTS5} --output json --limit ${LIMIT} --page 1 --node ${RPC5} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' > ${DIR}/${CHAINID5}.evidence
+    # as var ref dosen't work, we define var here
+    RPC="https://${CHAINID}-rpc.ztake.org:443"
+    EVENTS="ccv_packet.module=ccvconsumer&recv_packet.packet_dst_port=consumer&recv_packet.packet_dst_channel=channel-0&message.sender=${SENDER}"
+
+    # get the lastest page
+    echo "  -> fetching lastest page number..."
+    latest=$(${BINARY} query txs --events ${EVENTS} --output json --limit ${LIMIT} --node ${RPC} | ${JQ} --raw-output '."page_total"')
+    output="${DIR}/${CHAINID}${SUFFIX}"
+    echo "  -> lastest page number is ${latest}"
+    if [ ! -f "${output}" ]; then
+        touch ${output}
+    fi
+
+    # calulate the last page
+    line=$(wc -l < ${output})
+    last=$(( line/LIMIT + 1 ))
+    position=$(((last-1) * LIMIT + 1))
+
+    # delete content since position
+    pattern="${position},\$d"
+    sed -i $pattern ${output}
+    
+    # fetch vsc of the chain
+    for (( i=${last}; i<=${latest}; i++)); do
+        echo "  -> fetching on page ${i}..."
+        ${BINARY} query txs --events ${EVENTS} --output json --limit ${LIMIT} --page ${i} --node ${RPC} | ${JQ} --raw-output '.txs[] | "TxHash " + .txhash + " Seq " + (.tx.body.messages[] | select(."@type"=="/ibc.core.channel.v1.MsgRecvPacket" and .packet."source_port"=="provider")).packet.sequence + " Height " + .height' >> ${output}
+    done
 }
 
 vsc-generate-analysis() {
@@ -56,16 +53,28 @@ vsc-generate-analysis() {
     fi
     
     # Count times
-    for file in ${DIR}/*.evidence; do
-        COUNT="$(basename ${file} .evidence) "
+    for file in ${DIR}/*${SUFFIX}; do
+        COUNT="$(basename ${file} ${SUFFIX}) "
         COUNT+=$(wc -l < ${file})
         echo ${COUNT} >> ${DIR}/count
     done
 }
 
 vsc-evidence() {
-    echo "It may take minutes to generate output..."
-    vsc-fetch
+    echo "It may take minutes to process..."
+    # for loop fetch
+    for i in "${CHAINIDS[@]}"
+    do 
+        echo "-> fetching evidence on chain ${i}..."
+        CHAINID=${i}
+        if [ "${CHAINID}" = "neutron" ]; then
+            SENDER=${SENDERS[1]}
+        else 
+            SENDER=${SENDERS[0]}
+        fi 
+        vsc-fetch
+    done
+    # generate output
     vsc-generate-analysis
 }
 
