@@ -2,7 +2,7 @@
 
 ## Relayer Address
 
-Excepet for `neutron`, `irisnet` use the same address to relay vscs on other consumer chains. The txhashes leaves memos with the contnet `irisnet has this address | rly(2.1.2)`. 
+Except for `neutron`, `irisnet` use the same address to relay vscs on other consumer chains. The txhashes leave memos with the contnet `irisnet has this address | rly(2.1.2)`. 
 
 | Chain | Address | TxHash |
 | ---   | ---     | ---    |
