@@ -11,13 +11,13 @@ Except for `neutron`, `irisnet` use the same address to relay vscs on other cons
 
 ## VSC Counts
 
-Our relayer has currently relayed a total of `592` vsc packets (as of 12-08-10:00 UTC+8) on consumer chains. The relevant data (txhash, height and seq) are recorded in the corresponding files, and you can click on the links in the table below to view them.
+Our relayer has currently relayed a total of `614` vsc packets on consumer chains. The relevant data (txhash, height and seq) are recorded in the corresponding files, and you can click on the links in the table below to view them.
 
 | Chain | Times | 
 | ---   | ---   |   
-| [neutron](neutron.csv) | 320 | 
-| [gopher](gopher.csv)   | 92  |
+| [neutron](neutron.csv) | 333 | 
+| [gopher](gopher.csv)   | 95  |
 | [hero](hero.csv)       | 99  |
-| [duality](duality.csv) | 80  |
+| [duality](duality.csv) | 86  |
 | [apollo](apollo.csv)   | 1   |
-| sum-up                 | 592 |
+| sum-up                 | 614 |
