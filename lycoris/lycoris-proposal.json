@@ -1,0 +1,13 @@
+{
+	"title": "Create the lycoris chain",
+	"description": "This is a new proposal to create the consumer chain \"lycoris-1\". Visit https://github.com/taramakage/ics-testnets/tree/main/game-of-chains-2022/lycoris for details on this proposal's data and how to join the chain.",
+	"chain_id": "lycoris-1",
+	"initial_height": {
+		"revision_height": 1,
+		"revision_number": 1
+	},
+	"genesis_hash": "866016a158c4a4e80cf48bb79a3afc0bee65850d52212e19ee34f50c92a71863",
+	"binary_hash": "80b63681bf51895a0a92f62e74321d0a222087d0b28d646403a146b8c2e1e1e5",
+	"spawn_time": "2022-12-09T18:00:00.000000Z",
+	"deposit": "1uprov"
+}
